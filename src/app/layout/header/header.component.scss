@@ -1,0 +1,32 @@
+.wrapper {
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.5rem;
+  box-sizing: border-box;
+
+  .logo {
+    height: 100%;
+    object-fit: contain;
+    height: 1.5rem;
+    margin-right: auto;
+  }
+
+  a {
+    text-decoration: none;
+    font-weight: 300;
+    color: black;
+
+    &.active {
+      font-weight: 900;
+    }
+  }
+}
+.fixed {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  background-color: white;
+}
+.notfixed {
+  position: static;
+}

@@ -1,0 +1,59 @@
+<div class="wrapper">
+  <p-card>
+    <p-panel [toggleable]="true">
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+          <b>PLID: {{ data.parking_lot_id }}</b>
+        </div>
+      </ng-template>
+      <div class="row space-between">
+        <div class="column align-center gap-1">
+          <h3>Adresse</h3>
+          <h3>{{ data.address }} {{ data.zip_code }} , {{ data.city }}</h3>
+          <h3>Anzahl Plätze: {{ data.total_parking_spaces }}</h3>
+        </div>
+        <span class="column align-center">
+          <p-knob
+            [(ngModel)]="data.occupied"
+            [readonly]="true"
+            [min]="0"
+            [max]="data.total_parking_spaces"
+            [strokeWidth]="5"
+            rangeColor="var(--bluegray-400)"
+            valueColor="var(--blue-500)"
+          ></p-knob>
+          <p>Belegt im Zeitrahmen</p>
+        </span>
+        <span class="column align-center">
+          <p-knob
+            [(ngModel)]="data.soon_due"
+            [readonly]="true"
+            [min]="0"
+            [max]="data.total_parking_spaces"
+            [strokeWidth]="5"
+            rangeColor="var(--bluegray-400)"
+            valueColor="var(--yellow-500)"
+          ></p-knob>
+          <p>Bald Überschritten</p>
+        </span>
+        <span class="column align-center">
+          <p-knob
+            [(ngModel)]="data.overdue"
+            [readonly]="true"
+            [min]="0"
+            [max]="data.total_parking_spaces"
+            [strokeWidth]="5"
+            rangeColor="var(--bluegray-400)"
+            valueColor="var(--red-500)"
+          ></p-knob>
+          <p>Überschritten</p>
+        </span>
+      </div>
+    </p-panel>
+    <img
+      src="assets/images/Img1.jpg"
+      alt="monitoring placeholder"
+      class="img1"
+    />
+  </p-card>
+</div>

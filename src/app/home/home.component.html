@@ -1,0 +1,147 @@
+<div class="column gap-1">
+  <p-table
+    #dt
+    [tableStyle]="{ 'min-width': '60rem' }"
+    [value]="tableValues"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    dataKey="parking_lot_id"
+    [globalFilterFields]="['name', 'city', 'zip-code', 'country']"
+  >
+    <ng-template pTemplate="caption">
+      <div class="row align-center space-between">
+        <h3>Parkplätze</h3>
+        <span class="p-input-icon-left p-input-icon-right ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            (input)="applyFilterGlobal($event, 'contains')"
+            placeholder="Suchen"
+          />
+          <i class="pi pi-times clickable" (click)="clearFilter(dt)"></i>
+        </span>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 5rem"></th>
+        <th pSortableColumn="parking_lot_id">
+          PLID <p-sortIcon field="parking_lot_id"></p-sortIcon>
+        </th>
+        <th pSortableColumn="name">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="city">
+          Stadt <p-sortIcon field="city"></p-sortIcon>
+        </th>
+        <th pSortableColumn="zip-code">
+          PLZ <p-sortIcon field="zip-code"></p-sortIcon>
+        </th>
+        <th pSortableColumn="country">
+          Land <p-sortIcon field="country"></p-sortIcon>
+        </th>
+        <th pSortableColumn="freeRate">
+          Freie Plätze <p-sortIcon field="freeRate"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-value let-expanded="expanded">
+      <tr>
+        <td>
+          <button
+            type="button"
+            pButton
+            pRipple
+            [pRowToggler]="value"
+            class="p-button-text p-button-rounded p-button-plain"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          ></button>
+        </td>
+        <td>{{ value.parking_lot_id }}</td>
+
+        <td>{{ value.name }}</td>
+        <td>{{ value.city }}</td>
+        <td>{{ value.zip_code }}</td>
+        <td>{{ value.country }}</td>
+        <td>
+          <p-tag [severity]="getSeverity(value.freeRate)">
+            <p>{{ value.free }}/{{ value.watched_spaces }}</p>
+          </p-tag>
+        </td>
+        <td>
+          <p-button
+            icon="pi pi-map-marker"
+            [rounded]="true"
+            [disabled]="true"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-value>
+      <tr>
+        <td colspan="8" class="row-expand">
+          <div class="row align-center space-between">
+            <span class="column align-center">
+              <p-knob
+                [(ngModel)]="value.not_installed"
+                [readonly]="true"
+                [min]="0"
+                [max]="value.total_parking_spaces"
+                [strokeWidth]="5"
+                rangeColor="var(--bluegray-400)"
+                valueColor="var(--purple-500)"
+                valueTemplate="{{ value.not_installed }}/{{
+                  value.total_parking_spaces
+                }}"
+              ></p-knob>
+              <p>Kein Sensor installiert</p>
+            </span>
+            <span class="column align-center">
+              <p-knob
+                [(ngModel)]="value.occupied"
+                [readonly]="true"
+                [min]="0"
+                [max]="value.total_parking_spaces"
+                [strokeWidth]="5"
+                rangeColor="var(--bluegray-400)"
+                valueColor="var(--blue-500)"
+              ></p-knob>
+              <p>Belegt im Zeitrahmen</p>
+            </span>
+            <span class="column align-center">
+              <p-knob
+                [(ngModel)]="value.soon_due"
+                [readonly]="true"
+                [min]="0"
+                [max]="value.total_parking_spaces"
+                [strokeWidth]="5"
+                rangeColor="var(--bluegray-400)"
+                valueColor="var(--yellow-500)"
+              ></p-knob>
+              <p>Bald Überschritten</p>
+            </span>
+            <span class="column align-center">
+              <p-knob
+                [(ngModel)]="value.overdue"
+                [readonly]="true"
+                [min]="0"
+                [max]="value.total_parking_spaces"
+                [strokeWidth]="5"
+                rangeColor="var(--bluegray-400)"
+                valueColor="var(--red-500)"
+              ></p-knob>
+              <p>Überschritten</p>
+            </span>
+            <p-button [rounded]="true" (onClick)="goToDetail(value)"
+              >Mehr Details</p-button
+            >
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
